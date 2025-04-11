@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BoteController : MonoBehaviour
+public class BoteControllerOpcion1 : MonoBehaviour
 {
     private Rigidbody boteRb;
     public float fuerzaBase = 5f;
