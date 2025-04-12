@@ -1,10 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BoteControllerOpcion3 : MonoBehaviour
 {
     private Rigidbody boteRb;
     public float velocidad = 5f;
+    public float velocidadGiro = 5f;
     public bool estaAcelerando = false;
+
+    // Rango máximo de inclinación lateral para controlar el giro
+    public float maxAnguloDispositivo = 45f;
+    public float maxAnguloBote = 45f;
 
     private void Awake()
     {
@@ -14,44 +19,47 @@ public class BoteControllerOpcion3 : MonoBehaviour
 
     void Update()
     {
+        // Obtener inclinación lateral
+        float anguloZ = ObtenerAnguloDesdeGiroscopio();
+
+        if (!float.IsNaN(anguloZ))
+        {
+            // Invertimos el ángulo para que se sienta natural
+            anguloZ = -anguloZ;
+
+            // Normalizamos el ángulo de -maxAnguloDispositivo a +maxAnguloDispositivo
+            anguloZ = Mathf.Clamp(anguloZ, -maxAnguloDispositivo, maxAnguloDispositivo);
+
+            // Convertimos ese ángulo al rango de rotación del bote
+            float anguloBote = (anguloZ / maxAnguloDispositivo) * maxAnguloBote;
+
+            // Aplicamos la rotación suavizada
+            Quaternion rotacionObjetivo = Quaternion.Euler(0, anguloBote, 0);
+            boteRb.MoveRotation(Quaternion.Slerp(transform.rotation, rotacionObjetivo, Time.deltaTime * velocidadGiro));
+        }
+
+        // Acelera si está presionado
         if (estaAcelerando)
         {
-            // Direcci�n de rotaci�n basada en el giroscopio
-            Vector3 direccion = ObtenerDireccionDesdeGiroscopio();
-
-            if (direccion != Vector3.zero)
-            {
-                // Calcular la rotaci�n hacia la direcci�n del giroscopio
-                Quaternion rot = Quaternion.LookRotation(direccion, Vector3.up);
-                boteRb.MoveRotation(Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 5f));
-
-                // Acelerar hacia adelante
-                boteRb.AddForce(transform.forward * velocidad, ForceMode.Acceleration);
-            }
+            boteRb.AddForce(transform.forward * velocidad, ForceMode.Acceleration);
         }
     }
 
-    Vector3 ObtenerDireccionDesdeGiroscopio()
+    float ObtenerAnguloDesdeGiroscopio()
     {
-        // Obtener el �ngulo de rotaci�n del giroscopio
         Quaternion att = Input.gyro.attitude;
-
-        // Ajustar el quaternion para el modo retrato (en vertical)
-        Quaternion correccion = new Quaternion(att.x, att.y, -att.z, -att.w); // Corrige la orientaci�n para el dispositivo en vertical
-
-        // Convertir a grados eulerianos
+        Quaternion correccion = new Quaternion(att.x, att.y, -att.z, -att.w);
         Vector3 euler = correccion.eulerAngles;
 
-        // Usamos solo el valor del �ngulo Y (yaw) para determinar la direcci�n en XZ
-        float yaw = euler.y;
-        float rad = yaw * Mathf.Deg2Rad;
+        // Tomamos el ángulo Z (inclinación lateral)
+        float roll = euler.z;
 
-        // Direcci�n calculada
-        Vector3 direccion = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad));
-        return direccion.normalized;
+        // Pasamos de 0-360 a -180 a 180 para facilitar los cálculos
+        if (roll > 180) roll -= 360;
+
+        return roll;
     }
 
-    // M�todos de aceleraci�n
     public void IniciarAceleracion() => estaAcelerando = true;
     public void DetenerAceleracion() => estaAcelerando = false;
 }
