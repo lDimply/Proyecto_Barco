@@ -10,9 +10,13 @@ public class BoteControllerOpcion2 : MonoBehaviour
 
     public Camera cam;
 
+    public Transform flecha; // referencia a la flecha indicadora
+
     void Awake()
     {
         boteRb = GetComponent<Rigidbody>();
+        if (flecha != null)
+            flecha.gameObject.SetActive(false); // desactiva flecha al inicio
     }
 
     void Update()
@@ -25,6 +29,37 @@ public class BoteControllerOpcion2 : MonoBehaviour
             {
                 swipeStart = touch.position;
                 isDragging = true;
+
+                if (flecha != null)
+                    flecha.gameObject.SetActive(true);
+            }
+            else if (touch.phase == TouchPhase.Moved && isDragging)
+            {
+                Vector2 swipeCurrent = touch.position;
+                Vector2 swipeDelta = swipeCurrent - swipeStart;
+
+                if (flecha != null && swipeDelta.magnitude > 10f)
+                {
+                    Plane plano = new Plane(Vector3.up, boteRb.position);
+
+                    Ray rayStart = cam.ScreenPointToRay(swipeStart);
+                    Ray rayCurrent = cam.ScreenPointToRay(swipeCurrent);
+
+                    if (plano.Raycast(rayStart, out float distStart) && plano.Raycast(rayCurrent, out float distCurrent))
+                    {
+                        Vector3 worldStart = rayStart.GetPoint(distStart);
+                        Vector3 worldCurrent = rayCurrent.GetPoint(distCurrent);
+
+                        Vector3 swipeDir = (worldStart - worldCurrent).normalized;
+
+                        if (swipeDir != Vector3.zero)
+                        {
+                            // Calculamos el ángulo en grados en el plano X-Z (en sentido horario)
+                            float angleZ = Mathf.Atan2(swipeDir.x, swipeDir.z) * Mathf.Rad2Deg;
+                            flecha.rotation = Quaternion.Euler(0, 0, -angleZ); // gira solo sobre el eje Z
+                        }
+                    }
+                }
             }
             else if (touch.phase == TouchPhase.Ended && isDragging)
             {
@@ -37,6 +72,9 @@ public class BoteControllerOpcion2 : MonoBehaviour
                 }
 
                 isDragging = false;
+
+                if (flecha != null)
+                    flecha.gameObject.SetActive(false);
             }
         }
     }
