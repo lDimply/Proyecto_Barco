@@ -443,7 +443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &175056400
 Transform:
   m_ObjectHideFlags: 0
@@ -2255,7 +2255,7 @@ MonoBehaviour:
   - 9
   - 12
   velocidadGiro: 50
-  flecha: {fileID: 0}
+  flecha: {fileID: 175056400}
 --- !u!1 &1697155707
 GameObject:
   m_ObjectHideFlags: 0

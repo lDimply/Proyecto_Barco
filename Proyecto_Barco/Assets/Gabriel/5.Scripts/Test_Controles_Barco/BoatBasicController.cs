@@ -2,36 +2,50 @@ using UnityEngine;
 
 public class BoatBasicController : MonoBehaviour
 {
-    public float acceleration = 10f;      // Aceleración hacia adelante/atrás
-    public float maxSpeed = 15f;          // Velocidad máxima
-    public float turnSpeed = 50f;         // Velocidad de giro constante
-    public float waterDrag = 1f;          // Resistencia del agua
+    public float acceleration = 10f;       // Aceleración hacia adelante/atrás
+    public float maxSpeed = 15f;           // Velocidad máxima
+    public float turnSpeed = 50f;          // Velocidad de giro constante
+    public float waterDrag = 1f;           // Resistencia del agua
     public Rigidbody rb;
+
+    public Joystick joystickDigital;       // Joystick visual (para móviles)
 
     void Start()
     {
-        // Aplicar fricción del agua
         rb.linearDamping = waterDrag;
         rb.angularDamping = 2f;
 
-        // Congelar rotación no deseada (sólo rotar sobre Y)
+        // Congelar rotaciones en X y Z (solo rotar en Y)
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     void FixedUpdate()
     {
-        float moveInput = Input.GetAxis("Vertical");   // W/S
-        float turnInput = Input.GetAxis("Horizontal"); // A/D
+        float moveInput = 0f;
+        float turnInput = 0f;
 
-        // Movimiento hacia adelante si no se excede la velocidad máxima
+        // Si el joystick existe y está activo, usamos joystick
+        if (joystickDigital != null && joystickDigital.gameObject.activeInHierarchy)
+        {
+            moveInput = joystickDigital.Vertical;
+            turnInput = joystickDigital.Horizontal;
+        }
+        else
+        {
+            // Si no hay joystick, usamos teclado (PC)
+            moveInput = Input.GetAxis("Vertical");
+            turnInput = Input.GetAxis("Horizontal");
+        }
+
+        // Movimiento hacia adelante con fuerza limitada
         if (rb.linearVelocity.magnitude < maxSpeed)
         {
             Vector3 forwardForce = transform.forward * moveInput * acceleration;
             rb.AddForce(forwardForce, ForceMode.Force);
         }
 
-        // Giro constante en el eje Y (sin física)
-        if (turnInput != 0f)
+        // Rotación constante
+        if (Mathf.Abs(turnInput) > 0.1f)
         {
             float rotationAmount = turnSpeed * turnInput * Time.fixedDeltaTime;
             transform.Rotate(0f, rotationAmount, 0f);
