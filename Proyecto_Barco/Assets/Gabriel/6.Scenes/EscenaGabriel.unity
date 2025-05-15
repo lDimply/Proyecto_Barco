@@ -2734,6 +2734,8 @@ MonoBehaviour:
   rb: {fileID: 1881858958}
   joystickDigital: {fileID: 457556666}
   windZone: {fileID: 563645074}
+  minWindEfficiency: 0.6
+  maxWindEfficiency: 1
 --- !u!65 &1881858960
 BoxCollider:
   m_ObjectHideFlags: 0

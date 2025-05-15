@@ -11,11 +11,15 @@ public class BoatBasicController : MonoBehaviour
     public Joystick joystickDigital;
     public WindZoneController windZone;
 
+    [Range(0f, 1f)]
+    public float minWindEfficiency = 0.2f; // fuerza mínima cuando se va contra el viento
+    [Range(0f, 1f)]
+    public float maxWindEfficiency = 1f;   // fuerza máxima cuando se va con el viento
+
     void Start()
     {
         rb.linearDamping = waterDrag;
         rb.angularDamping = 2f;
-
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
@@ -41,36 +45,25 @@ public class BoatBasicController : MonoBehaviour
             rb.AddForce(forwardForce, ForceMode.Force);
         }
 
-        // Este viento se puede eliminar si ahora usas OnTriggerStay
-        /*
+        // Aplicar viento si el jugador está dentro del área
         if (windZone != null && windZone.IsInWindZone(transform.position))
         {
-            Vector3 windForce = windZone.GetWindForce();
+            Vector3 windDir = windZone.GetWindDirection().normalized;
+            float alignment = Vector3.Dot(transform.forward, windDir); // -1 (contra viento) a 1 (a favor)
+            float t = (alignment + 1f) / 2f; // convertir a rango 0 - 1
+            float forceFactor = Mathf.Lerp(minWindEfficiency, maxWindEfficiency, t);
+
+            Vector3 windForce = windDir * windZone.windStrength * forceFactor;
             rb.AddForce(windForce, ForceMode.Force);
+
+            // DEBUG
+            Debug.Log($"[WIND] Align: {alignment:F2}, Factor: {forceFactor:F2}, Force: {windForce}");
         }
-        */
 
         if (Mathf.Abs(turnInput) > 0.1f)
         {
             float rotationAmount = turnSpeed * turnInput * Time.fixedDeltaTime;
             transform.Rotate(0f, rotationAmount, 0f);
-        }
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        WindZoneController windZone = other.GetComponent<WindZoneController>();
-        if (windZone != null)
-        {
-            Vector3 windDir = windZone.GetWindDirection().normalized;
-
-            float alignment = Vector3.Dot(transform.forward, windDir);
-            float forceFactor = Mathf.Clamp01((alignment + 1f) / 2f);
-
-            Vector3 windForce = windDir * windZone.windStrength * forceFactor;
-            rb.AddForce(windForce, ForceMode.Force);
-
-            Debug.Log($"Wind Alignment: {alignment:F2} | Factor: {forceFactor:F2} | Force: {windForce}");
         }
     }
 }
