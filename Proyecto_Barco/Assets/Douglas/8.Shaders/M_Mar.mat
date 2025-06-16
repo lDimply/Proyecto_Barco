@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WorldBending
+  m_Name: M_Mar
   m_Shader: {fileID: -6465566751694194690, guid: f024ac5ff3ca75e4192f9a7acd82dc5f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -40,7 +40,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Texture:
-        m_Texture: {fileID: 2800000, guid: f8a227c27d384274dabc81b9dff5d3c0, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -59,9 +59,11 @@ Material:
     m_Floats:
     - ENABLE_BENDING: 1
     - ENABLE_BENDING_PLANET: 1
+    - _Alpha: 1
     - _Amount: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
-    m_Colors: []
+    m_Colors:
+    - _BaseColor: {r: 0, g: 0.41076696, b: 0.8207547, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
