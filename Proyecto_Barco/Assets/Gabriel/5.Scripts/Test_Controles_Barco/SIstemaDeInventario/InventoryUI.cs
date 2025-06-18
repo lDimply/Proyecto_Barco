@@ -37,8 +37,10 @@ public class InventoryUI : MonoBehaviour
 
             if (qtyTxt != null)
             {
-                qtyTxt.text = invItem.data.maxStack > 1 ? invItem.quantity.ToString() : "";
+                qtyTxt.text = invItem.quantity.ToString();
             }
+
+
         }
     }
 }
