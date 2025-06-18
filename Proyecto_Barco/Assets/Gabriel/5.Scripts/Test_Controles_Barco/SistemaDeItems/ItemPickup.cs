@@ -1,16 +1,16 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class ItemPickup : MonoBehaviour
 {
-    public ItemData item;
-    public int cantidad = 1;
+    public ItemData itemData;
 
     private void OnTriggerEnter(Collider other)
     {
-        InventorySystem inventario = other.GetComponent<InventorySystem>();
-        if (inventario != null && inventario.AñadirItem(item, cantidad))
+        InventorySystem inv = other.GetComponent<InventorySystem>();
+        if (inv != null && itemData != null)
         {
-            Debug.Log($"Recogiste: {item.itemName} x{cantidad}");
+            inv.AddItem(itemData);
             Destroy(gameObject);
         }
     }

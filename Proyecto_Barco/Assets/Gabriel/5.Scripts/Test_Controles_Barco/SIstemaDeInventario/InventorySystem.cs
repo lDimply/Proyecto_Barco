@@ -3,37 +3,38 @@ using UnityEngine;
 
 public class InventorySystem : MonoBehaviour
 {
+    [Header("Referencia opcional a la UI")]
+    public InventoryUI inventoryUI;      // arrástralo en el Inspector (o déjalo vacío)
+
+    [Header("Capacidad")]
     public int capacidad = 20;
-    public List<InventorySlot> slots = new List<InventorySlot>();
 
-    void Start()
-    {
-        for (int i = 0; i < capacidad; i++)
-            slots.Add(new InventorySlot());
-    }
+    private List<InventoryItem> items = new List<InventoryItem>();
 
-    public bool AñadirItem(ItemData nuevoItem, int cantidad = 1)
+    // ---------- API pública ----------
+    public IReadOnlyList<InventoryItem> GetItems() => items;
+
+    public void AddItem(ItemData data)
     {
-        // 1) intentar apilar
-        foreach (var slot in slots)
+        // 1) Si el item ya existe y se puede apilar
+        InventoryItem existing = items.Find(i => i.data == data);
+        if (existing != null && existing.quantity < data.maxStack)
         {
-            if (slot.item == nuevoItem && slot.cantidad < nuevoItem.maxStack)
-            {
-                slot.cantidad += cantidad;
-                return true;
-            }
+            existing.quantity++;
+            Debug.Log($"Se apiló {data.itemName}. Total: {existing.quantity}");
         }
-        // 2) buscar hueco vacío
-        foreach (var slot in slots)
+        else
         {
-            if (slot.EstaVacio)
+            if (items.Count >= capacidad)
             {
-                slot.item = nuevoItem;
-                slot.cantidad = cantidad;
-                return true;
+                Debug.LogWarning("Inventario lleno");
+                return;
             }
+            items.Add(new InventoryItem(data));
+            Debug.Log($"Se añadió nuevo ítem: {data.itemName}");
         }
-        Debug.Log("Inventario lleno");
-        return false;
+
+        // refrescar UI si está asignada
+        if (inventoryUI != null) inventoryUI.UpdateUI(items);
     }
 }

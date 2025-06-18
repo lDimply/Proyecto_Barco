@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ItemTest1
   m_EditorClassIdentifier: 
   itemName: alo
-  icon: {fileID: 0}
+  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   itemType: 1
   maxStack: 1
