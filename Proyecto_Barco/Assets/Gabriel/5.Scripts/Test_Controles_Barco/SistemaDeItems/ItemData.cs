@@ -14,5 +14,6 @@ public enum ItemType
     Comida,
     Objeto,
     Llave,
-    Material
+    Material,
+    Moneda
 }
