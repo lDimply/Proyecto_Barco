@@ -7,7 +7,10 @@ public class ItemData : ScriptableObject
     public Sprite icon;
     public ItemType itemType;
     public int maxStack = 1;
+    public bool ocultarEnInventario = false; 
+
 }
+
 
 public enum ItemType
 {
@@ -16,4 +19,8 @@ public enum ItemType
     Llave,
     Material,
     Moneda
+
 }
+
+
+

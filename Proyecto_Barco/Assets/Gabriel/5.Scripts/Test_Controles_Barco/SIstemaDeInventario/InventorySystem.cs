@@ -11,12 +11,32 @@ public class InventorySystem : MonoBehaviour
 
     private List<InventoryItem> items = new List<InventoryItem>();
 
+    // Contador para monedas recogidas
+    public int totalCoins = 0;
+
     // ---------- API pública ----------
     public IReadOnlyList<InventoryItem> GetItems() => items;
 
     public void AddItem(ItemData data)
     {
-        // 1) Si el item ya existe y se puede apilar
+        // Si el objeto está marcado para ocultarse en el inventario visual
+        if (data.ocultarEnInventario)
+        {
+            // Puedes hacer lógica especial aquí si quieres (como sumar monedas)
+            if (data.itemType == ItemType.Moneda)
+            {
+                totalCoins++;
+                Debug.Log($"Moneda recogida. Total monedas: {totalCoins}");
+            }
+            else
+            {
+                Debug.Log($"Item '{data.itemName}' recogido pero oculto en el inventario.");
+            }
+
+            return; // No se agrega a la lista
+        }
+
+        // Si ya existe y se puede apilar
         InventoryItem existing = items.Find(i => i.data == data);
         if (existing != null && existing.quantity < data.maxStack)
         {
@@ -34,7 +54,11 @@ public class InventorySystem : MonoBehaviour
             Debug.Log($"Se añadió nuevo ítem: {data.itemName}");
         }
 
-        // refrescar UI si está asignada
-        if (inventoryUI != null) inventoryUI.UpdateUI(items);
+        // Refrescar UI si está asignada
+        if (inventoryUI != null)
+        {
+            inventoryUI.UpdateUI(items);
+        }
     }
+
 }
