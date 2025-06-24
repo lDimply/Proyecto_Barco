@@ -2,40 +2,49 @@
 
 public class CoinPopupManager : MonoBehaviour
 {
-    [Header("Prefab del popup")]
     public GameObject coinPopupPrefab;
-
-    [Header("Referencia al jugador o bote")]
     public Transform player;
-
-    [Header("Offset para la posición del popup")]
     public Vector3 offset = new Vector3(0, 2f, 0);
+    public Canvas mainCanvas;
 
-    [Header("Canvas principal")]
-    public Canvas mainCanvas; // ← Asigna el Canvas de la escena aquí
+    private CoinPopup currentPopup; // ← Referencia al popup activo
+    private int currentAmount = 0;
 
-    public void ShowPopup(int amount)
+    public void ShowPopup(int amountToAdd = 1)
     {
-        if (coinPopupPrefab == null || player == null || mainCanvas == null) return;
+        if (coinPopupPrefab == null || player == null || mainCanvas == null)
+            return;
 
-        // Instancia el popup como hijo del Canvas
-        GameObject popup = Instantiate(coinPopupPrefab, mainCanvas.transform);
-
-        // Posición del popup relativa al jugador
-        Vector3 worldPos = player.position + offset;
-
-        // Convertir de posición del mundo a posición de pantalla
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
-
-        // Asignar posición en la UI
-        popup.transform.position = screenPos;
-
-        // Configurar datos
-        CoinPopup cp = popup.GetComponent<CoinPopup>();
-        if (cp != null)
+        // Ya existe un popup activo
+        if (currentPopup != null)
         {
-            cp.SetAmount(amount);
-            cp.SetTarget(player); // (opcional si el popup sigue al jugador)
+            currentAmount += amountToAdd;
+            currentPopup.SetAmount(currentAmount);
+
+            // Reiniciar tiempo de vida opcional (si lo ocultas luego de unos segundos)
+            currentPopup.RestartLifeTime();
         }
+        else
+        {
+            currentAmount = amountToAdd;
+
+            GameObject popupGO = Instantiate(coinPopupPrefab, mainCanvas.transform);
+            Vector3 worldPos = player.position + offset;
+            popupGO.transform.position = Camera.main.WorldToScreenPoint(worldPos);
+
+            currentPopup = popupGO.GetComponent<CoinPopup>();
+            if (currentPopup != null)
+            {
+                currentPopup.SetAmount(currentAmount);
+                currentPopup.SetTarget(player, offset);
+                currentPopup.OnPopupDestroyed += ClearCurrentPopup;
+            }
+        }
+    }
+
+    private void ClearCurrentPopup()
+    {
+        currentPopup = null;
+        currentAmount = 0;
     }
 }

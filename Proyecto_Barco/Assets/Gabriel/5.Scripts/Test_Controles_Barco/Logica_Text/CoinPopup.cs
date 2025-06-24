@@ -1,35 +1,55 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class CoinPopup : MonoBehaviour
 {
     public TMP_Text text;
     public float duration = 1.5f;
-    public Vector3 floatOffset = new Vector3(0, 0.5f, 0);
-    public float floatSpeed = 1f;
+    private float timer;
+    private Transform target;
+    private Vector3 offset;
 
-    private Transform targetToFollow;
+    public Action OnPopupDestroyed;
 
     public void SetAmount(int amount)
     {
-        if (text != null)
-            text.text = $"+{amount}";
+        text.text = $"+{amount}";
+
+        // Puedes cambiar tamaño/color si quieres aquí según el número
+        float scale = 1f + (amount - 1) * 0.1f;
+        transform.localScale = Vector3.one * Mathf.Clamp(scale, 1f, 2f);
     }
 
-    public void SetTarget(Transform target)
+    public void SetTarget(Transform newTarget, Vector3 newOffset)
     {
-        targetToFollow = target;
+        target = newTarget;
+        offset = newOffset;
+    }
+
+    public void RestartLifeTime()
+    {
+        timer = duration;
+    }
+
+    void Start()
+    {
+        timer = duration;
     }
 
     void Update()
     {
-        if (targetToFollow != null)
+        if (target != null)
         {
-            transform.position = targetToFollow.position + floatOffset;
-            transform.LookAt(Camera.main.transform);
-            transform.Rotate(0, 180, 0);
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position + offset);
+            transform.position = screenPos;
         }
 
-        Destroy(gameObject, duration);
+        timer -= Time.deltaTime;
+        if (timer <= 0f)
+        {
+            OnPopupDestroyed?.Invoke();
+            Destroy(gameObject);
+        }
     }
 }
