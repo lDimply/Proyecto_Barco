@@ -1,54 +1,59 @@
 using UnityEngine;
 using TMPro;
-using System;
 
 public class CoinPopup : MonoBehaviour
 {
     public TMP_Text text;
-    public float duration = 1.5f;
-    private float timer;
     private Transform target;
-    private Vector3 offset;
 
-    public Action OnPopupDestroyed;
+    public Color lowColor = Color.white;
+    public Color mediumColor = Color.yellow;
+    public Color highColor = Color.red;
+
+    public float baseFontSize = 24f;
+    public float maxFontSize = 48f;
+
+    public float lifetime = 1.5f;
+    private float timer;
 
     public void SetAmount(int amount)
     {
         text.text = $"+{amount}";
 
-        // Puedes cambiar tamaño/color si quieres aquí según el número
-        float scale = 1f + (amount - 1) * 0.1f;
-        transform.localScale = Vector3.one * Mathf.Clamp(scale, 1f, 2f);
+        // Cambiar color según valor
+        if (amount < 3)
+            text.color = lowColor;
+        else if (amount < 6)
+            text.color = mediumColor;
+        else
+            text.color = highColor;
+
+        // Escalar tamaño
+        float sizeFactor = Mathf.Clamp01(amount / 10f); // 0 a 1
+        text.fontSize = Mathf.Lerp(baseFontSize, maxFontSize, sizeFactor);
+
+        timer = 0f;
     }
 
-    public void SetTarget(Transform newTarget, Vector3 newOffset)
+    public void SetTarget(Transform t)
     {
-        target = newTarget;
-        offset = newOffset;
-    }
-
-    public void RestartLifeTime()
-    {
-        timer = duration;
-    }
-
-    void Start()
-    {
-        timer = duration;
+        target = t;
     }
 
     void Update()
     {
+        // Seguir al jugador
         if (target != null)
         {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position + offset);
-            transform.position = screenPos;
+            transform.position = target.position + new Vector3(0, 2f, 0);
+            transform.LookAt(Camera.main.transform);
+            transform.Rotate(0, 180, 0);
         }
 
-        timer -= Time.deltaTime;
-        if (timer <= 0f)
+        // Auto destrucción con timer
+        timer += Time.deltaTime;
+        if (timer >= lifetime)
         {
-            OnPopupDestroyed?.Invoke();
             Destroy(gameObject);
         }
     }

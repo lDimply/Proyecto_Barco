@@ -221,7 +221,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 463546463233271686}
-  duration: 1.5
+  lowColor: {r: 1, g: 1, b: 1, a: 1}
+  mediumColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  highColor: {r: 1, g: 0, b: 0, a: 1}
+  baseFontSize: 0.5
+  maxFontSize: 4
+  lifetime: 1.5
 --- !u!1 &7939815925374860813
 GameObject:
   m_ObjectHideFlags: 0
