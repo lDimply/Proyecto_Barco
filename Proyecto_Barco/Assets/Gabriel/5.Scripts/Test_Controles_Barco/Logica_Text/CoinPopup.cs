@@ -1,48 +1,37 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using TMPro;
 
 public class CoinPopup : MonoBehaviour
 {
+    [Header("Componentes")]
     public TMP_Text text;
+    public float duration = 2f;
+    public Vector3 floatSpeed = new Vector3(0, 0.5f, 0);
+    public Vector3 startScale = Vector3.one;
+    public Vector3 maxScale = Vector3.one * 1.5f;
+    public Color colorBajo = Color.white;
+    public Color colorMedio = Color.yellow;
+    public Color colorAlto = Color.red;
+
+    private float timer = 0f;
+    private float resetCooldown = 2f;
+    private float resetTimer = 0f;
     private Transform target;
 
-    public Color lowColor = Color.white;
-    public Color mediumColor = Color.yellow;
-    public Color highColor = Color.red;
+    private int currentAmount = 0;
+    private CanvasGroup canvasGroup;
 
-    public float baseFontSize = 24f;
-    public float maxFontSize = 48f;
-
-    public float lifetime = 1.5f;
-    private float timer;
-
-    public void SetAmount(int amount)
+    void Awake()
     {
-        text.text = $"+{amount}";
-
-        // Cambiar color según valor
-        if (amount < 3)
-            text.color = lowColor;
-        else if (amount < 6)
-            text.color = mediumColor;
-        else
-            text.color = highColor;
-
-        // Escalar tamaño
-        float sizeFactor = Mathf.Clamp01(amount / 10f); // 0 a 1
-        text.fontSize = Mathf.Lerp(baseFontSize, maxFontSize, sizeFactor);
-
-        timer = 0f;
-    }
-
-    public void SetTarget(Transform t)
-    {
-        target = t;
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
     }
 
     void Update()
     {
-        // Seguir al jugador
         if (target != null)
         {
             transform.position = target.position + new Vector3(0, 2f, 0);
@@ -50,11 +39,54 @@ public class CoinPopup : MonoBehaviour
             transform.Rotate(0, 180, 0);
         }
 
-        // Auto destrucción con timer
+        transform.position += floatSpeed * Time.deltaTime;
+
         timer += Time.deltaTime;
-        if (timer >= lifetime)
+        resetTimer += Time.deltaTime;
+
+        // Desvanecer poco a poco
+        float fadeStartTime = duration * 0.6f;
+        if (timer >= fadeStartTime)
+        {
+            float fadeProgress = (timer - fadeStartTime) / (duration - fadeStartTime);
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, fadeProgress);
+        }
+
+        // Destruir despuÃ©s del tiempo total
+        if (timer >= duration)
         {
             Destroy(gameObject);
         }
+
+        // Reinicio si pasa demasiado sin recoger
+        if (resetTimer >= resetCooldown)
+        {
+            currentAmount = 0;
+            text.text = "";
+            canvasGroup.alpha = 0f;
+        }
+    }
+
+    public void SetAmount(int amount)
+    {
+        currentAmount = amount;
+        resetTimer = 0f;
+        timer = 0f;
+        canvasGroup.alpha = 1f;
+
+        text.text = "+" + amount;
+        transform.localScale = Vector3.Lerp(startScale, maxScale, Mathf.Clamp01(amount / 10f));
+
+        if (amount < 5)
+            text.color = colorBajo;
+        else if (amount < 10)
+            text.color = colorMedio;
+        else
+            text.color = colorAlto;
+    }
+
+    public void SetTarget(Transform t)
+    {
+        target = t;
     }
 }

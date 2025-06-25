@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Moneda
   icon: {fileID: 0}
   itemType: 4
-  maxStack: 999
+  maxStack: 1
   ocultarEnInventario: 1
