@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 7487292495609708067}
   - component: {fileID: 6150797356190182360}
   - component: {fileID: 7026703565560261450}
-  - component: {fileID: 6479611194889385453}
+  - component: {fileID: -4490895825992998467}
   m_Layer: 0
   m_Name: CoinPopup
   m_TagString: Untagged
@@ -223,9 +223,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 463546463233271686}
   duration: 1.5
-  resetCooldown: 1.5
-  floatSpeed: 0.5
---- !u!225 &6479611194889385453
+  floatSpeed: {x: 0, y: 0.5, z: 0}
+  startScale: {x: 1, y: 1, z: 1}
+  maxScale: {x: 1.5, y: 1.5, z: 1.5}
+  colorBajo: {r: 1, g: 1, b: 1, a: 1}
+  colorMedio: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  colorAlto: {r: 1, g: 0, b: 0, a: 1}
+--- !u!225 &-4490895825992998467
 CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
