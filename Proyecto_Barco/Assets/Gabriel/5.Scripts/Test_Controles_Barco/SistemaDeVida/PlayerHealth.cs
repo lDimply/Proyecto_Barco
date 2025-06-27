@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -38,7 +39,14 @@ public class PlayerHealth : MonoBehaviour
         {
             onPlayerDeath?.Invoke();
             Debug.Log("Jugador ha muerto");
+
+            // Avisamos al sistema global que el jugador murió
+            GameManager.Instance.PlayerDied();
+
+            // Reiniciar escena actual (nivel actual)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+
         else
         {
             StartCoroutine(InvulnerabilityCoroutine());

@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Douglas/1.Scenes/EscenaDouglas.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Gabriel/6.Scenes/Escena_Mundos.unity
+    guid: f00cd07883d6a854fa426ca35bf5cae5
+  - enabled: 1
+    path: Assets/Gabriel/6.Scenes/EscenaGabriel.unity
+    guid: a63599016c7df134981d6b98b50444bf
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 82e04399d33aa7544a71f9f441ad3f3c, type: 3}
   m_UseUCBPForAssetBundles: 0
