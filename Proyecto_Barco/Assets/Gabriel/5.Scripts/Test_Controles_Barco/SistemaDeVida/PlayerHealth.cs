@@ -43,8 +43,11 @@ public class PlayerHealth : MonoBehaviour
             // Avisamos al sistema global que el jugador murió
             GameManager.Instance.PlayerDied();
 
-            // Reiniciar escena actual (nivel actual)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            // Solo reiniciar escena si aún quedan vidas de la run
+            if (GameManager.Instance.runLives > 0)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
 
         else
