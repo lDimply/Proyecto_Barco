@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4915380038637061697}
   - component: {fileID: 8414720340449547203}
+  - component: {fileID: 5579433365605397329}
   m_Layer: 5
   m_Name: Prefab_NodoNIvel
   m_TagString: Untagged
@@ -46,6 +47,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903823237787479556}
   m_CullTransparentMesh: 1
+--- !u!114 &5579433365605397329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903823237787479556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6f93200a8b75d4b99c073bb95f4467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nombreEscena: EscenaGabriel
 --- !u!1 &4737234003912407639
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,4 +254,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5387563619777959112}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5579433365605397329}
+        m_TargetAssemblyTypeName: BotonNivel, Assembly-CSharp
+        m_MethodName: CargarEscena
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
