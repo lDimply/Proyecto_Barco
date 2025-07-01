@@ -10,6 +10,9 @@ public class MundoInteractivo : MonoBehaviour
     public bool desbloqueado = false;               // Si el mundo está desbloqueado o no
     public float tiempoCuentaRegresiva = 3f;        // Tiempo que el jugador debe quedarse para entrar
 
+    [Header("Vidas base para este mundo")]
+    public int vidasInicialesDeLaRun = 3;
+
     [Header("Visuales del Mundo")]
     public GameObject visualBloqueado;              // Modelo/visual cuando está bloqueado
     public GameObject visualDesbloqueado;           // Modelo/visual cuando está desbloqueado
@@ -103,6 +106,10 @@ public class MundoInteractivo : MonoBehaviour
 
         // Cuando termina la cuenta regresiva, se cambia de escena
         Debug.Log($"Cargando escena: {nombreMundo}");
+
+        // Guardar vidas base del mundo en PlayerPrefs
+        PlayerPrefs.SetInt("vidasBaseMundo", vidasInicialesDeLaRun);
+
         SceneManager.LoadScene(nombreMundo);
     }
 
