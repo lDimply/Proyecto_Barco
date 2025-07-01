@@ -1,16 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     [Header("Vida de la Run")]
-    public int runLives = 3;
+    [SerializeField]
+    private int _runLives = 3;
+    public int runLives
+    {
+        get => _runLives;
+        private set
+        {
+            _runLives = value;
+            OnRunLivesChanged?.Invoke(_runLives); // ← Evento se dispara aquí
+        }
+    }
+
+    public static event Action<int> OnRunLivesChanged; // ← Evento global
 
     [Header("Nombre de la Escena Lobby")]
-    public string lobbySceneName = "Escena_Mundos"; // Cambia por el nombre real
-
+    public string lobbySceneName = "Escena_Mundos";
 
     private void Awake()
     {
@@ -22,10 +34,7 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-
     }
-
 
     public void PlayerDied()
     {
@@ -35,17 +44,11 @@ public class GameManager : MonoBehaviour
 
         if (runLives <= 0)
         {
-            // Se acabaron las vidas de la run → volver al lobby
             Debug.Log("¡Run terminada! Volviendo al lobby...");
             SceneManager.LoadScene(lobbySceneName);
         }
-        else
-        {
-            // No hacemos nada más, la escena se reinicia desde PlayerHealth
-        }
     }
 
-    // Método opcional para reiniciar la run manualmente
     public void ResetRun(int newRunLives)
     {
         runLives = newRunLives;
@@ -58,6 +61,4 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(lobbySceneName);
         }
     }
-
-
 }

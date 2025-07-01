@@ -1,47 +1,50 @@
-using UnityEngine;
-using UnityEngine.UI;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 
 public class RunLivesUI : MonoBehaviour
 {
-    [Header("Prefab del ícono de vida")]
+    [Header("Prefab del Ã­cono de vida")]
     public GameObject vidaUIPrefab;
 
-    [Header("Contenedor donde se instanciarán las vidas")]
+    [Header("Contenedor donde se instanciarÃ¡n las vidas")]
     public Transform contenedorVidas;
 
     private List<GameObject> vidasInstanciadas = new List<GameObject>();
-    private int vidasActuales = -1; // Para forzar una actualización al inicio
 
-    void Start()
+    private void OnEnable()
     {
-        ActualizarUI();
+        GameManager.OnRunLivesChanged += ActualizarUI;
     }
 
-    void Update()
+    private void OnDisable()
     {
-        if (GameManager.Instance == null) return;
+        GameManager.OnRunLivesChanged -= ActualizarUI;
+    }
 
-        if (vidasActuales != GameManager.Instance.runLives)
+    private void Start()
+    {
+        if (GameManager.Instance != null)
         {
-            ActualizarUI();
+            ActualizarUI(GameManager.Instance.runLives);
         }
     }
 
-    void ActualizarUI()
+    private void ActualizarUI(int cantidad)
     {
-        // Limpiar las vidas anteriores
+        // Limpiar vidas anteriores
         foreach (var vida in vidasInstanciadas)
         {
             Destroy(vida);
         }
         vidasInstanciadas.Clear();
 
-        // Agregar vidas nuevas
-        vidasActuales = GameManager.Instance.runLives;
-        for (int i = 0; i < vidasActuales; i++)
+        // Agregar nuevas vidas
+        for (int i = 0; i < cantidad; i++)
         {
-            GameObject nuevaVida = Instantiate(vidaUIPrefab, contenedorVidas);
+            GameObject nuevaVida = Instantiate(vidaUIPrefab);
+            nuevaVida.transform.SetParent(contenedorVidas, false);
+            nuevaVida.transform.SetSiblingIndex(0); // â† inserta al inicio
+
             vidasInstanciadas.Add(nuevaVida);
         }
     }
