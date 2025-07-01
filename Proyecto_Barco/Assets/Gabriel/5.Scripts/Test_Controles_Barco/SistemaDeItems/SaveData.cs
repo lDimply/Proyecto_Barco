@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public static class SaveData
 {
@@ -9,12 +9,12 @@ public static class SaveData
         return PlayerPrefs.GetInt(VidaExtraKey, 0);
     }
 
-    public static void AñadirVidaExtra()
+    public static void AÃ±adirVidaExtra()
     {
         int nuevas = GetVidasExtra() + 1;
         PlayerPrefs.SetInt(VidaExtraKey, nuevas);
         PlayerPrefs.Save();
-        Debug.Log($"¡Vida extra permanente añadida! Total: {nuevas}");
+        Debug.Log($"ğŸ Â¡Vida extra permanente aÃ±adida! Total: {nuevas}");
     }
 
     public static void ResetearVidasExtra()

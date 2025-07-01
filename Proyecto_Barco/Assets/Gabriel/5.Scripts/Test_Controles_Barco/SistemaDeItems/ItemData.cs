@@ -7,10 +7,11 @@ public class ItemData : ScriptableObject
     public Sprite icon;
     public ItemType itemType;
     public int maxStack = 1;
-    public bool ocultarEnInventario = false; 
+    public bool ocultarEnInventario = false;
 
+    [Header("Categoría de ítem especial")]
+    public ItemCategoria categoriaEspecial = ItemCategoria.Ninguna;
 }
-
 
 public enum ItemType
 {
@@ -18,9 +19,15 @@ public enum ItemType
     Objeto,
     Llave,
     Material,
-    Moneda
+    Moneda,
+    Vida
 
 }
 
-
+public enum ItemCategoria
+{
+    Ninguna,
+    ItemPermanente,
+    ItemGastable
+}
 

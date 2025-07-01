@@ -14,7 +14,7 @@ public class ItemPickup : MonoBehaviour
         InventorySystem inv = other.GetComponent<InventorySystem>();
         if (inv == null || itemData == null) return;
 
-        // Añadir el ítem al inventario
+        // Añadir al inventario
         inv.AddItem(itemData);
 
         // Mostrar popup si es moneda
@@ -23,7 +23,11 @@ public class ItemPickup : MonoBehaviour
             popupManager.ShowPopup(1);
         }
 
+        // Aplicar efecto si corresponde
+        ItemEffectManager.AplicarEfecto(itemData);
+
         // Destruir el objeto recogido
         Destroy(gameObject);
     }
+
 }

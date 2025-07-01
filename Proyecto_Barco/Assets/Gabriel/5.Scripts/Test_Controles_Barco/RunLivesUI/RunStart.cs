@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RunStart : MonoBehaviour
 {
@@ -9,11 +9,12 @@ public class RunStart : MonoBehaviour
 
         int vidasTotales = vidasBase + vidasExtra;
 
+        Debug.Log($"🧠 Run iniciada con {vidasTotales} vidas (Base: {vidasBase}, Extra: {vidasExtra})");
+
         if (GameManager.Instance != null)
         {
             GameManager.Instance.ResetRun(vidasTotales);
         }
-
-        Debug.Log($"Run iniciada con {vidasTotales} vidas (Base: {vidasBase}, Extra: {vidasExtra})");
     }
+
 }
