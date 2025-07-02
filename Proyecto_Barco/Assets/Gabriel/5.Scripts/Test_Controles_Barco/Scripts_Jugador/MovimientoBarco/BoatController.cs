@@ -7,7 +7,7 @@ public class BoatController : MonoBehaviour
     public float maxImpulseForce = 20f;
 
     // Tiempo máximo de carga (para calcular cuánta fuerza aplicar)
-    public float maxCharge = 2f;
+    public float maxCharge = 1f;
 
     // Referencia al Rigidbody del barco
     public Rigidbody rb;
@@ -22,7 +22,7 @@ public class BoatController : MonoBehaviour
     private float chargeTime = 0f;
 
     // Tiempo máximo permitido sin usar el impulso antes de cancelarlo
-    private float impulseTimeout = 3f;
+    private float impulseTimeout = 2.5f;
 
     // Contador del tiempo desde que se activó el modo impulso
     private float elapsedTime = 0f;

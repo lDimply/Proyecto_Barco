@@ -2263,6 +2263,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 1
+  tiempoInactivo: 1.5
+  intervaloParpadeo: 0.2
+  fuerzaEmpuje: 20
 --- !u!65 &1134358223
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3613,7 +3616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7273e9fdfa871144c93ad8f11bf36e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 30
+  acceleration: 50
   maxSpeed: 100
   turnSpeed: 100
   waterDrag: 1
@@ -3676,7 +3679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velaIzada: 0
   velaVisual: {fileID: 523619754}
-  teclaToggle: 325
+  tiempoMaxDobleTap: 0.3
 --- !u!114 &1881858965
 MonoBehaviour:
   m_ObjectHideFlags: 0
