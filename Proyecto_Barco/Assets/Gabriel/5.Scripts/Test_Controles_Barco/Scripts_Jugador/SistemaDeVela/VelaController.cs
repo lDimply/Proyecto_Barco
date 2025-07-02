@@ -3,26 +3,50 @@ using UnityEngine;
 public class VelaController : MonoBehaviour
 {
     [Header("Estado de la vela")]
-    public bool velaIzada = false; // ¿La vela está levantada?
+    public bool velaIzada = false;
 
     [Header("Referencia al objeto visual de la vela")]
-    public GameObject velaVisual; // Asignar el modelo 3D de la vela en el Inspector
+    public GameObject velaVisual;
 
-    [Header("Tecla para izar/arriar")]
-    public KeyCode teclaToggle = KeyCode.V; // Puedes cambiar esta tecla si lo deseas
+    [Header("Configuración del Doble Tap")]
+    public float tiempoMaxDobleTap = 0.3f; // Tiempo máximo entre dos toques
+
+    private float tiempoUltimoTap = -1f;
 
     void Start()
     {
-        // Asegurar que el objeto de la vela se muestre correctamente al iniciar
         if (velaVisual != null)
             velaVisual.SetActive(velaIzada);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(teclaToggle))
+#if UNITY_EDITOR || UNITY_STANDALONE
+        // También funciona con doble click en mouse izquierdo (para testeo en PC)
+        if (Input.GetMouseButtonDown(0))
+        {
+            ProcesarTap();
+        }
+#elif UNITY_ANDROID || UNITY_IOS
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            ProcesarTap();
+        }
+#endif
+    }
+
+    void ProcesarTap()
+    {
+        float tiempoActual = Time.time;
+
+        if (tiempoActual - tiempoUltimoTap < tiempoMaxDobleTap)
         {
             ToggleVela();
+            tiempoUltimoTap = -1f; // Reiniciamos para evitar triples toques
+        }
+        else
+        {
+            tiempoUltimoTap = tiempoActual;
         }
     }
 
@@ -30,11 +54,9 @@ public class VelaController : MonoBehaviour
     {
         velaIzada = !velaIzada;
 
-        // Mostrar u ocultar el objeto de la vela
         if (velaVisual != null)
             velaVisual.SetActive(velaIzada);
 
-        // Debug
         Debug.Log("Vela izada: " + velaIzada);
     }
 
