@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             onPlayerDeath?.Invoke();
-            Debug.Log("Jugador ha muerto");
+            
 
             // Avisamos al sistema global que el jugador murió
             GameManager.Instance.PlayerDied();
@@ -76,6 +76,6 @@ public class PlayerHealth : MonoBehaviour
             playerRenderer.enabled = true;
 
         isInvulnerable = false;
-        Debug.Log("Jugador ya no es invulnerable");
+        
     }
 }

@@ -60,7 +60,7 @@ public class BoatBasicController : MonoBehaviour
             Vector3 windForce = windDir * windZone.windStrength * forceFactor;
             rb.AddForce(windForce, ForceMode.Force);
 
-            Debug.Log($"[Viento Activo] Fuerza: {windForce} | Alineación: {alignment:F2} | Vela izada: {velaController.EstaIzada()}");
+            
         }
 
 

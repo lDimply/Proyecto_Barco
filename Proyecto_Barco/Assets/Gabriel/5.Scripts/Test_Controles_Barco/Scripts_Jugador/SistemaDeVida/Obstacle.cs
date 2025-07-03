@@ -31,7 +31,7 @@ public class Obstacle : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(damageAmount);
-            Debug.Log("Jugador recibió daño del obstáculo");
+            
 
             Rigidbody rbJugador = collision.gameObject.GetComponent<Rigidbody>();
             if (rbJugador != null)
@@ -42,7 +42,7 @@ public class Obstacle : MonoBehaviour
 
                 // Aplicar fuerza
                 rbJugador.AddForce(direccionEmpuje * fuerzaEmpuje, ForceMode.Impulse);
-                Debug.Log("Jugador fue empujado fuera del obstáculo");
+                
             }
 
             StartCoroutine(ParpadeoTemporal());
