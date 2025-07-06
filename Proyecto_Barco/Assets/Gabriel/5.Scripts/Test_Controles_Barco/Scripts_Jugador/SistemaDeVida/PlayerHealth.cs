@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -17,9 +18,14 @@ public class PlayerHealth : MonoBehaviour
     [Header("Referencias")]
     public Renderer playerRenderer; // Asignar en el inspector
 
+    [SerializeField] public CinemachineImpulseSource impulseSource;
+
     [Header("Eventos")]
     public UnityEvent onPlayerDamaged;
     public UnityEvent onPlayerDeath;
+
+   
+
 
     private void Awake()
     {
@@ -32,6 +38,12 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth -= amount;
         currentHealth = Mathf.Max(currentHealth, 0);
+
+        // Aquí generamos el camera shake
+        if (CameraShakeTrigger.Instance != null)
+        {
+            CameraShakeTrigger.Instance.GenerarShake();
+        }
 
         onPlayerDamaged?.Invoke();
 
@@ -78,4 +90,6 @@ public class PlayerHealth : MonoBehaviour
         isInvulnerable = false;
         
     }
+
+   
 }
