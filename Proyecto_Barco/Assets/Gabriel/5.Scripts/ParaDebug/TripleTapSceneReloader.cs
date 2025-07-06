@@ -27,7 +27,7 @@ public class TripleTapSceneReloader : MonoBehaviour
 
             if (tapCount >= 3)
             {
-                Debug.Log("Triple tap detectado, reiniciando escena...");
+                
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
@@ -51,7 +51,7 @@ public class TripleTapSceneReloader : MonoBehaviour
 
             if (tapCount >= 3)
             {
-                Debug.Log("Triple clic (editor), reiniciando escena...");
+                
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
