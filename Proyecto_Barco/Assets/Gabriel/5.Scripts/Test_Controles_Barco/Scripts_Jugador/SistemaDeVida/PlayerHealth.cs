@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -17,9 +18,14 @@ public class PlayerHealth : MonoBehaviour
     [Header("Referencias")]
     public Renderer playerRenderer; // Asignar en el inspector
 
+    [SerializeField] public CinemachineImpulseSource impulseSource;
+
     [Header("Eventos")]
     public UnityEvent onPlayerDamaged;
     public UnityEvent onPlayerDeath;
+
+   
+
 
     private void Awake()
     {
@@ -33,28 +39,32 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= amount;
         currentHealth = Mathf.Max(currentHealth, 0);
 
+        // Generar camera shake directamente desde impulseSource del jugador
+        if (impulseSource != null)
+        {
+            impulseSource.GenerateImpulse();
+            Debug.Log("Impulso generado desde el jugador.");
+        }
+
         onPlayerDamaged?.Invoke();
 
         if (currentHealth <= 0)
         {
             onPlayerDeath?.Invoke();
-            
 
-            // Avisamos al sistema global que el jugador murió
             GameManager.Instance.PlayerDied();
 
-            // Solo reiniciar escena si aún quedan vidas de la run
             if (GameManager.Instance.runLives > 0)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
-
         else
         {
             StartCoroutine(InvulnerabilityCoroutine());
         }
     }
+
 
     private IEnumerator InvulnerabilityCoroutine()
     {
@@ -78,4 +88,6 @@ public class PlayerHealth : MonoBehaviour
         isInvulnerable = false;
         
     }
+
+   
 }
