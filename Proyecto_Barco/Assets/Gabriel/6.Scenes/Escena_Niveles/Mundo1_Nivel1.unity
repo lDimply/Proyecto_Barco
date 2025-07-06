@@ -496,17 +496,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5732439255538447849, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
   m_PrefabInstance: {fileID: 5907723091835686635}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &75421730 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1727653585964342649, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
-  m_PrefabInstance: {fileID: 5907723091835686635}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 75421726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &75421731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,7 +508,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d26d450704174a04fa2ac94ca8344bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impulseSource: {fileID: 75421730}
+  impulseSource: {fileID: 75421734}
+--- !u!114 &75421734 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+  m_PrefabInstance: {fileID: 5907723091835686635}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75421726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd438dd108a0f284aa931a2da434f1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &87269528
 GameObject:
   m_ObjectHideFlags: 0
@@ -10141,7 +10141,7 @@ MonoBehaviour:
   audioSource: {fileID: 1695883434}
   sonidoIzar: {fileID: 8300000, guid: 8633bbd6bb43b0340bff9574968fa0b7, type: 3}
   sonidoArriar: {fileID: 8300000, guid: 8633bbd6bb43b0340bff9574968fa0b7, type: 3}
-  feedbackEscalaTarget: {fileID: 0}
+  feedbackEscalaTarget: {fileID: 1695883433}
   escalaFeedback: 1.2
   duracionFeedback: 0.4
 --- !u!114 &1881858965
@@ -10176,7 +10176,7 @@ MonoBehaviour:
   invulnerabilityTime: 3
   flashInterval: 0.1
   playerRenderer: {fileID: 786412363}
-  impulseSource: {fileID: 75421730}
+  impulseSource: {fileID: 75421734}
   onPlayerDamaged:
     m_PersistentCalls:
       m_Calls: []
@@ -10899,7 +10899,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1727653585964342649, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
       propertyPath: ImpulseDefinition.AmplitudeGain
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1727653585964342649, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
       propertyPath: ImpulseDefinition.TimeEnvelope.SustainTime
@@ -10966,12 +10966,68 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ScaleImpactWithMass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
       propertyPath: ScaleImpactWithSpeed
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.DecayTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
       propertyPath: ImpulseDefinition.TimeEnvelope.AttackTime
-      value: 0.2
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.DecayShape.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.AttackShape.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.DecayShape.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.AttackShape.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.DecayShape.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.DecayShape.m_Curve.Array.data[1].value
+      value: 0.000000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.AttackShape.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.DecayShape.m_Curve.Array.data[1].inSlope
+      value: 0.19109362
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.AttackShape.m_Curve.Array.data[1].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.DecayShape.m_Curve.Array.data[1].inWeight
+      value: 0.88257635
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.DecayShape.m_Curve.Array.data[1].outSlope
+      value: 0.19109362
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266140090211399625, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
+      propertyPath: ImpulseDefinition.TimeEnvelope.AttackShape.m_Curve.Array.data[1].outSlope
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9115430973926099822, guid: 21acfbc9cf1891740908ccaaca499c9a, type: 3}
       propertyPath: m_Name
