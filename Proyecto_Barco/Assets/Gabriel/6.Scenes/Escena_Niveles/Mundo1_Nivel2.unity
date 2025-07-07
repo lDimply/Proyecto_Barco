@@ -13146,7 +13146,7 @@ MeshCollider:
   m_Mesh: {fileID: 537236188}
 --- !u!33 &265539140
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -26865,8 +26865,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: becf849c991957e49b2523fbd9973355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelTimer: {fileID: 0}
   escenaRamificacion: run_mundo1
-  efectoFinalNivel: {fileID: 0}
 --- !u!1001 &554046736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43255,7 +43255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa652aa02cff054488c01722fda5b22d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxIntervalBetweenTaps: 0.2
+  maxIntervalBetweenTaps: 0.3
 --- !u!43 &1088016112
 Mesh:
   m_ObjectHideFlags: 0
@@ -61317,7 +61317,7 @@ MeshCollider:
   m_Mesh: {fileID: 85174670}
 --- !u!33 &1792812814
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -65240,6 +65240,7 @@ MonoBehaviour:
   invulnerabilityTime: 3
   flashInterval: 0.1
   playerRenderer: {fileID: 786412363}
+  impulseSource: {fileID: 0}
   onPlayerDamaged:
     m_PersistentCalls:
       m_Calls: []
