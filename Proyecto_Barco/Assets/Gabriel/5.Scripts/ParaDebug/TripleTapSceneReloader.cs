@@ -25,7 +25,7 @@ public class TripleTapSceneReloader : MonoBehaviour
 
             lastTapTime = currentTime;
 
-            if (tapCount >= 3)
+            if (tapCount >= 4)
             {
                 
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -49,7 +49,7 @@ public class TripleTapSceneReloader : MonoBehaviour
 
             lastTapTime = currentTime;
 
-            if (tapCount >= 3)
+            if (tapCount >= 5)
             {
                 
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
